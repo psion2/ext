@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "Mel-DemandScraperV2",
+  "version": "2.0.6",
+  "description": "LinkedIn scraper sidebar extension V2",
+  "permissions": ["storage", "tabs", "activeTab", "scripting", "cookies"],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "https://api.mel-demandscraper.com/*",
+    "https://app.mel-demandscraper.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Mel-DemandScraperV2",
+    "default_icon": {
+      "16": "assets/icon.png",
+      "32": "assets/icon.png",
+      "48": "assets/icon.png",
+      "128": "assets/icon.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon.png",
+    "32": "assets/icon.png",
+    "48": "assets/icon.png",
+    "128": "assets/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": [
+        "content/mel.v2.namespace.js",
+        "content/mel.v2.profile.utils.js",
+        "content/mel.v2.profile.experience.scraper.js",
+        "content/mel.v2.profile.basic.scraper.js",
+        "content/mel.v2.profile.handlers.js",
+        "content/mel.v2.company.scraper.js",
+        "content/mel.v2.inject.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "sidebar/sidebar.v2.html",
+        "sidebar/sidebar.v2.css",
+        "sidebar/sidebar.v2.js",
+        "sidebar/ui/api.v2.js",
+        "sidebar/ui/auth.view.v2.js",
+        "sidebar/ui/profile.view.v2.js",
+        "sidebar/ui/storage.v2.js",
+        "assets/icon.png"
+      ],
+      "matches": ["https://www.linkedin.com/*"]
+    }
+  ]
+}
