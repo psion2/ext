@@ -185,10 +185,29 @@ async function autoRunProfile() {
     const pidEl = profile.refs.contact_profileId;
     const pid = pidEl ? pidEl.textContent?.trim() : "";
     if (pid && pid !== "-") {
+      let copied = false;
       try {
         await navigator.clipboard.writeText(pid);
+        copied = true;
+      } catch {}
+      if (!copied) {
+        try {
+          const ta = document.createElement("textarea");
+          ta.value = pid;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          ta.style.left = "-9999px";
+          ta.style.top = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          ta.setSelectionRange(0, ta.value.length);
+          copied = document.execCommand("copy");
+          document.body.removeChild(ta);
+        } catch {}
+      }
+      if (copied) {
         profile.setStatus(profile.refs.contact_status, "Auto: Saved & Profile ID copied to clipboard", "success");
-      } catch {
+      } else {
         pidEl?.focus();
         profile.setStatus(profile.refs.contact_status, "Auto: Saved. Profile ID field focused (copy manually)", "success");
       }
